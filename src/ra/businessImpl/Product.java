@@ -4,10 +4,11 @@ import ra.business.IProduct;
 import ra.config.ShopConfig;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Product implements IProduct {
+public class Product implements IProduct, Comparable<Product>{
     public static List<Product> productList = new ArrayList<>();
     private int productid;
     private String productName, title, descriptions;
@@ -127,7 +128,9 @@ public class Product implements IProduct {
     }
 
     public void sortByInterest(){
-        productList.stream().sorted(Comparator.comparing(Product::getInterest)).forEach(Product::displayPerProduct);
+        Collections.sort(productList);
+        productList.forEach(Product::displayData);
+//        productList.stream().sorted(Comparator.comparing(Product::getInterest)).forEach(Product::displayPerProduct);
     }
 
     public void updateStatus(){
@@ -193,4 +196,8 @@ public class Product implements IProduct {
     }
 
 
+    @Override
+    public int compareTo(Product o) {
+        return (int) (this.getInterest() - o.getInterest());
+    }
 }
